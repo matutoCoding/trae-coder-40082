@@ -178,7 +178,6 @@ export const useRecurrenceStore = create<RecurrenceState & RecurrenceActions>((s
     }
 
     const newBookings: Booking[] = [];
-    let generatedCount = 0;
 
     for (const dateStr of dates) {
       const exception = rule.exceptions.find(e => e.date === dateStr);
@@ -237,7 +236,6 @@ export const useRecurrenceStore = create<RecurrenceState & RecurrenceActions>((s
       };
 
       newBookings.push(booking);
-      generatedCount++;
     }
 
     if (newBookings.length > 0) {
@@ -250,7 +248,7 @@ export const useRecurrenceStore = create<RecurrenceState & RecurrenceActions>((s
       set(state => ({
         recurrences: state.recurrences.map(r =>
           r.id === ruleId
-            ? { ...r, generatedCount: r.generatedCount + generatedCount, updatedAt: new Date().toISOString() }
+            ? { ...r, generatedCount: r.generatedCount + newBookings.length, updatedAt: new Date().toISOString() }
             : r
         )
       }));

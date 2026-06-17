@@ -7,50 +7,56 @@ export const generateRecurrenceDates = (rule: RecurrenceRule): string[] => {
   const startDate = dayjs(rule.startDate);
   const endDate = dayjs(rule.endDate);
 
+  const getWeekSunday = (d: dayjs.Dayjs): dayjs.Dayjs => {
+    return d.day(0);
+  };
+
   if (rule.frequency === 'daily' || rule.frequency === 'weekly') {
     let currentDate = startDate;
     while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
-      const weekday = currentDate.weekday();
-      if (rule.weekdays.includes(weekday as 0 | 1 | 2 | 3 | 4 | 5 | 6)) {
+      const dayOfWeek = currentDate.day();
+      if (rule.weekdays.includes(dayOfWeek as 0 | 1 | 2 | 3 | 4 | 5 | 6)) {
         dates.push(currentDate.format('YYYY-MM-DD'));
       }
       currentDate = currentDate.add(1, 'day');
     }
   } else if (rule.frequency === 'biweekly') {
-    const firstWeekStart = startDate.startOf('week');
+    const firstWeekSunday = getWeekSunday(startDate);
     let weekNum = 0;
-    let currentWeekStart = firstWeekStart;
+    let currentWeekSunday = firstWeekSunday;
     
-    while (currentWeekStart.isBefore(endDate) || currentWeekStart.isSame(endDate, 'week')) {
+    while (currentWeekSunday.isBefore(endDate) || currentWeekSunday.isSame(endDate, 'day')) {
       if (weekNum % 2 === 0) {
-        for (const weekday of rule.weekdays) {
-          const targetDate = currentWeekStart.add(weekday, 'day');
+        for (const dayOfWeek of rule.weekdays) {
+          const targetDate = currentWeekSunday.add(dayOfWeek, 'day');
           if ((targetDate.isAfter(startDate) || targetDate.isSame(startDate, 'day')) &&
               (targetDate.isBefore(endDate) || targetDate.isSame(endDate, 'day'))) {
             dates.push(targetDate.format('YYYY-MM-DD'));
           }
         }
       }
-      currentWeekStart = currentWeekStart.add(1, 'week');
+      currentWeekSunday = currentWeekSunday.add(7, 'day');
       weekNum++;
     }
   } else if (rule.frequency === 'monthly') {
     let currentMonth = startDate.startOf('month');
     
     while (currentMonth.isBefore(endDate) || currentMonth.isSame(endDate, 'month')) {
-      for (const weekday of rule.weekdays) {
-        let targetDate = currentMonth.startOf('week').add(weekday, 'day');
-        
-        if (targetDate.isBefore(currentMonth)) {
-          targetDate = targetDate.add(1, 'week');
+      for (const dayOfWeek of rule.weekdays) {
+        const firstDayOfMonth = currentMonth.date(1);
+        const firstDayWeekday = firstDayOfMonth.day();
+        let daysToAdd = dayOfWeek - firstDayWeekday;
+        if (daysToAdd < 0) {
+          daysToAdd += 7;
         }
+        let targetDate = firstDayOfMonth.add(daysToAdd, 'day');
         
         while (targetDate.month() === currentMonth.month()) {
           if ((targetDate.isAfter(startDate) || targetDate.isSame(startDate, 'day')) &&
               (targetDate.isBefore(endDate) || targetDate.isSame(endDate, 'day'))) {
             dates.push(targetDate.format('YYYY-MM-DD'));
           }
-          targetDate = targetDate.add(1, 'week');
+          targetDate = targetDate.add(7, 'day');
         }
       }
       currentMonth = currentMonth.add(1, 'month');
@@ -60,7 +66,7 @@ export const generateRecurrenceDates = (rule: RecurrenceRule): string[] => {
   const uniqueDates = [...new Set(dates)].sort();
   console.log('[generateRecurrenceDates] 规则:', rule.name, '频率:', rule.frequency, 
     '起始:', rule.startDate, '结束:', rule.endDate, 
-    '星期:', rule.weekdays, '生成日期:', uniqueDates.length, '个', uniqueDates);
+    '星期(0=日):', rule.weekdays, '生成日期:', uniqueDates.length, '个', uniqueDates);
   return uniqueDates;
 };
 

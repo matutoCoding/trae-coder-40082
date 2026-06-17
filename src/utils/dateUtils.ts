@@ -1,9 +1,7 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import weekday from 'dayjs/plugin/weekday';
 
 dayjs.locale('zh-cn');
-dayjs.extend(weekday);
 
 export const formatDate = (date: string | Date | dayjs.Dayjs, format: string = 'YYYY-MM-DD'): string => {
   return dayjs(date).format(format);
@@ -26,7 +24,7 @@ export const getCurrentTime = (): string => {
 };
 
 export const getWeekDates = (baseDate: string = getToday()): string[] => {
-  const start = dayjs(baseDate).weekday(0);
+  const start = dayjs(baseDate).day(0);
   const dates: string[] = [];
   for (let i = 0; i < 7; i++) {
     dates.push(start.add(i, 'day').format('YYYY-MM-DD'));
@@ -45,7 +43,7 @@ export const getMonthDates = (year: number, month: number): string[] => {
 };
 
 export const getWeekday = (date: string): number => {
-  return dayjs(date).weekday() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  return dayjs(date).day() as 0 | 1 | 2 | 3 | 4 | 5 | 6;
 };
 
 export const isToday = (date: string): boolean => {

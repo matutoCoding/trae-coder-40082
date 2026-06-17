@@ -24,7 +24,7 @@ const Calendar: React.FC<CalendarProps> = ({
   const [currentMonth, setCurrentMonth] = useState(dayjs(selectedDate));
 
   const weekDates = useMemo(() => {
-    const startOfWeek = dayjs(selectedDate).weekday(0);
+    const startOfWeek = dayjs(selectedDate).day(0);
     const dates: string[] = [];
     for (let i = 0; i < 7; i++) {
       dates.push(startOfWeek.add(i, 'day').format('YYYY-MM-DD'));
@@ -36,7 +36,7 @@ const Calendar: React.FC<CalendarProps> = ({
     const year = currentMonth.year();
     const month = currentMonth.month();
     const firstDay = dayjs(`${year}-${month + 1}-01`);
-    const startWeekday = firstDay.weekday();
+    const startWeekday = firstDay.day();
     const daysInMonth = firstDay.daysInMonth();
 
     const dates: (string | null)[] = [];
