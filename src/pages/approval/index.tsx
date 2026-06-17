@@ -15,7 +15,7 @@ import styles from './index.module.scss';
 
 const ApprovalPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'pending' | 'history'>('pending');
-  const { approvals, loading, fetchApprovals, processApproval, routeRules, fetchRouteRules } = useApprovalStore();
+  const { records, loading, fetchApprovals, processApproval, rules, currentUserId } = useApprovalStore();
   const { bookings, fetchBookings, getBookingById } = useBookingStore();
   const { rooms, fetchRooms, getRoomById } = useRoomStore();
 
@@ -29,26 +29,26 @@ const ApprovalPage: React.FC = () => {
   });
 
   const loadData = async () => {
-    await Promise.all([fetchApprovals(), fetchBookings(), fetchRooms(), fetchRouteRules()]);
+    await Promise.all([fetchApprovals(), fetchBookings(), fetchRooms()]);
   };
 
   const pendingApprovals = useMemo(() =>
-    approvals.filter(a => a.status === 'pending'),
-    [approvals]
+    records.filter(a => a.status === 'pending'),
+    [records]
   );
 
   const historyApprovals = useMemo(() =>
-    approvals.filter(a => a.status !== 'pending'),
-    [approvals]
+    records.filter(a => a.status !== 'pending'),
+    [records]
   );
 
   const displayedApprovals = activeTab === 'pending' ? pendingApprovals : historyApprovals;
 
   const stats = useMemo(() => ({
     pending: pendingApprovals.length,
-    approved: approvals.filter(a => a.status === 'approved').length,
-    rejected: approvals.filter(a => a.status === 'rejected').length
-  }), [approvals, pendingApprovals]);
+    approved: records.filter(a => a.status === 'approved').length,
+    rejected: records.filter(a => a.status === 'rejected').length
+  }), [records, pendingApprovals]);
 
   const handleProcess = (approval: ApprovalRecord, action: 'approve' | 'reject') => {
     Taro.showModal({
@@ -70,14 +70,14 @@ const ApprovalPage: React.FC = () => {
     const booking = getBookingById(approval.bookingId);
     const room = booking ? getRoomById(booking.roomId) : null;
     const progress = getApprovalProgress(approval);
-    const matchingRule = findMatchingRule(booking!, routeRules);
+    const matchingRule = booking && room ? findMatchingRule(rules, booking, room) : null;
 
     const content = [
       `会议室：${room?.name || '未知'}`,
       `主题：${booking?.title || '未知'}`,
       `时间：${formatDateTime(booking?.startTime || '')} ~ ${formatDateTime(booking?.endTime || '')}`,
-      `申请人：${approval.applicant.name}`,
-      `部门：${approval.applicant.department}`,
+      `申请人：${approval.applicant?.name || '未知'}`,
+      `部门：${approval.applicant?.department || '未知'}`,
       '',
       `匹配规则：${matchingRule?.name || '默认规则'}`,
       `审批进度：${progress.currentStep + 1}/${progress.totalSteps}`,
@@ -96,7 +96,7 @@ const ApprovalPage: React.FC = () => {
 
   const handleRuleConfig = () => {
     Taro.navigateTo({
-      url: '/pages/approval-rules/index'
+      url: '/pages/rule-config/index'
     });
   };
 
@@ -126,7 +126,7 @@ const ApprovalPage: React.FC = () => {
       <View className={styles.ruleConfigBtn} onClick={handleRuleConfig}>
         <Text className={styles.ruleConfigIcon}>⚙️</Text>
         <Text className={styles.ruleConfigText}>
-          审批路由配置（{routeRules.length}条规则）
+          审批路由配置（{rules.length}条规则）
         </Text>
         <Text className={styles.ruleConfigArrow}>›</Text>
       </View>
@@ -182,7 +182,7 @@ const ApprovalPage: React.FC = () => {
             const booking = getBookingById(approval.bookingId);
             const room = booking ? getRoomById(booking.roomId) : null;
             const progress = getApprovalProgress(approval);
-            const matchingRule = findMatchingRule(booking!, routeRules);
+            const matchingRule = booking && room ? findMatchingRule(rules, booking, room) : null;
 
             return (
               <View key={approval.id} className={styles.approvalCard}>
@@ -215,15 +215,15 @@ const ApprovalPage: React.FC = () => {
                 <View className={styles.applicantInfo}>
                   <View className={styles.avatar}>
                     <Text className={styles.avatarText}>
-                      {approval.applicant.name.charAt(0)}
+                      {(approval.applicant?.name || 'U').charAt(0)}
                     </Text>
                   </View>
                   <View className={styles.applicantDetail}>
                     <Text className={styles.applicantName}>
-                      {approval.applicant.name}
+                      {approval.applicant?.name || '未知'}
                     </Text>
                     <Text className={styles.applicantDept}>
-                      {approval.applicant.department}
+                      {approval.applicant?.department || '未知'}
                     </Text>
                   </View>
                   <Text className={styles.applyTime}>

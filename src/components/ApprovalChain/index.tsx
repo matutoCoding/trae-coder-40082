@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text } from '@tarojs/components';
 import classNames from 'classnames';
-import type { ApprovalStep, ApprovalStatus } from '@/types';
+import type { ApprovalStep, ApprovalStatus, ApprovalRecord } from '@/types';
 import { formatDateTime } from '@/utils/dateUtils';
 import styles from './index.module.scss';
 
 interface ApprovalChainProps {
-  steps: ApprovalStep[];
-  currentStep: number;
+  steps?: ApprovalStep[];
+  currentStep?: number;
   showDetails?: boolean;
+  approval?: ApprovalRecord;
+  compact?: boolean;
 }
 
 const stepStatusIcon: Record<ApprovalStatus, string> = {
@@ -18,11 +20,23 @@ const stepStatusIcon: Record<ApprovalStatus, string> = {
   transferred: '🔄'
 };
 
-const ApprovalChain: React.FC<ApprovalChainProps> = ({
-  steps,
-  currentStep,
-  showDetails = true
-}) => {
+const ApprovalChain: React.FC<ApprovalChainProps> = (props) => {
+  let steps: ApprovalStep[];
+  let currentStep: number;
+  let showDetails: boolean;
+  let compact: boolean;
+
+  if (props.approval) {
+    steps = props.approval.steps;
+    currentStep = props.approval.currentStep;
+    showDetails = props.showDetails ?? true;
+    compact = props.compact ?? false;
+  } else {
+    steps = props.steps || [];
+    currentStep = props.currentStep || 0;
+    showDetails = props.showDetails ?? true;
+    compact = props.compact ?? false;
+  }
   return (
     <View className={styles.chainContainer}>
       <Text className={styles.title}>审批流程</Text>

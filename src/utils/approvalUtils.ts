@@ -108,12 +108,19 @@ export const createApprovalSteps = (flow: ApprovalFlow): ApprovalStep[] => {
   }));
 };
 
-export const getApprovalProgress = (steps: ApprovalStep[]): { completed: number; total: number; percentage: number } => {
-  const total = steps.length;
+export const getApprovalProgress = (record: { steps: ApprovalStep[]; currentStep: number }): {
+  currentStep: number;
+  totalSteps: number;
+  completed: number;
+  percentage: number;
+} => {
+  const steps = record.steps;
+  const totalSteps = steps.length;
   const completed = steps.filter(s => s.status === 'approved' || s.status === 'rejected').length;
-  const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+  const percentage = totalSteps > 0 ? Math.round((completed / totalSteps) * 100) : 0;
+  const currentStep = record.currentStep >= totalSteps ? totalSteps - 1 : record.currentStep;
 
-  return { completed, total, percentage };
+  return { currentStep, totalSteps, completed, percentage };
 };
 
 export const getCurrentStep = (steps: ApprovalStep[]): ApprovalStep | null => {

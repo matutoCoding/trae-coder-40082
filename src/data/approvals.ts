@@ -11,7 +11,7 @@ export const mockApprovalFlows: ApprovalFlow[] = [
         stepNumber: 1,
         approverRole: '部门主管',
         approverId: 'user_001',
-        approverName: '张明',
+        approverName: '张经理',
         status: 'pending'
       }
     ],
@@ -27,16 +27,16 @@ export const mockApprovalFlows: ApprovalFlow[] = [
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_005',
-        approverName: '李华',
+        approverId: 'user_001',
+        approverName: '张经理',
         status: 'pending'
       },
       {
         id: 'step_002',
         stepNumber: 2,
         approverRole: '行政经理',
-        approverId: 'user_020',
-        approverName: '陈经理',
+        approverId: 'user_002',
+        approverName: '刘经理',
         status: 'pending'
       }
     ],
@@ -52,23 +52,23 @@ export const mockApprovalFlows: ApprovalFlow[] = [
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_005',
-        approverName: '李华',
+        approverId: 'user_001',
+        approverName: '张经理',
         status: 'pending'
       },
       {
         id: 'step_002',
         stepNumber: 2,
         approverRole: '行政经理',
-        approverId: 'user_020',
-        approverName: '陈经理',
+        approverId: 'user_002',
+        approverName: '刘经理',
         status: 'pending'
       },
       {
         id: 'step_003',
         stepNumber: 3,
         approverRole: '分管领导',
-        approverId: 'user_010',
+        approverId: 'user_003',
         approverName: '王总',
         status: 'pending'
       }
@@ -207,20 +207,21 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_005',
-        approverName: '李华',
+        approverId: 'user_001',
+        approverName: '张经理',
         status: 'pending'
       },
       {
         id: 'step_002',
         stepNumber: 2,
         approverRole: '行政经理',
-        approverId: 'user_020',
-        approverName: '陈经理',
+        approverId: 'user_002',
+        approverName: '刘经理',
         status: 'pending'
       }
     ],
     status: 'pending',
+    applicant: { id: 'user_005', name: '李华', department: '技术部' },
     createdAt: '2024-06-10T14:00:00.000Z',
     updatedAt: '2024-06-10T14:00:00.000Z'
   },
@@ -235,8 +236,8 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_005',
-        approverName: '李华',
+        approverId: 'user_001',
+        approverName: '张经理',
         status: 'approved',
         comment: '同意，培训很重要',
         approvedAt: '2024-06-09T11:00:00.000Z'
@@ -245,12 +246,13 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_002',
         stepNumber: 2,
         approverRole: '行政经理',
-        approverId: 'user_020',
-        approverName: '陈经理',
+        approverId: 'user_002',
+        approverName: '刘经理',
         status: 'pending'
       }
     ],
     status: 'pending',
+    applicant: { id: 'user_020', name: '陈经理', department: '人力资源部' },
     createdAt: '2024-06-08T09:00:00.000Z',
     updatedAt: '2024-06-09T11:00:00.000Z'
   },
@@ -259,38 +261,37 @@ export const mockApprovalRecords: ApprovalRecord[] = [
     bookingId: 'booking_007',
     ruleId: 'rule_001',
     flowId: 'flow_003',
-    currentStep: 1,
+    currentStep: 0,
     steps: [
       {
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_015',
-        approverName: '孙总监',
-        status: 'approved',
-        comment: '重要客户，请务必安排好',
-        approvedAt: '2024-06-11T16:00:00.000Z'
+        approverId: 'user_001',
+        approverName: '张经理',
+        status: 'pending'
       },
       {
         id: 'step_002',
         stepNumber: 2,
         approverRole: '行政经理',
-        approverId: 'user_020',
-        approverName: '陈经理',
+        approverId: 'user_002',
+        approverName: '刘经理',
         status: 'pending'
       },
       {
         id: 'step_003',
         stepNumber: 3,
         approverRole: '分管领导',
-        approverId: 'user_010',
+        approverId: 'user_003',
         approverName: '王总',
         status: 'pending'
       }
     ],
     status: 'pending',
+    applicant: { id: 'user_015', name: '孙总监', department: '销售部' },
     createdAt: '2024-06-11T14:00:00.000Z',
-    updatedAt: '2024-06-11T16:00:00.000Z'
+    updatedAt: '2024-06-11T14:00:00.000Z'
   },
   {
     id: 'approval_004',
@@ -303,14 +304,15 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_005',
-        approverName: '李华',
+        approverId: 'user_001',
+        approverName: '张经理',
         status: 'rejected',
         comment: '该时段已有重要安排，请调整时间',
         approvedAt: '2024-06-11T17:00:00.000Z'
       }
     ],
     status: 'rejected',
+    applicant: { id: 'user_001', name: '张明', department: '产品部' },
     createdAt: '2024-06-11T15:00:00.000Z',
     updatedAt: '2024-06-11T17:00:00.000Z'
   },
@@ -325,8 +327,8 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_001',
         stepNumber: 1,
         approverRole: '部门主管',
-        approverId: 'user_010',
-        approverName: '王总',
+        approverId: 'user_001',
+        approverName: '张经理',
         status: 'approved',
         comment: '请各部门准备好汇报材料',
         approvedAt: '2024-06-05T15:00:00.000Z'
@@ -335,8 +337,8 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_002',
         stepNumber: 2,
         approverRole: '行政经理',
-        approverId: 'user_020',
-        approverName: '陈经理',
+        approverId: 'user_002',
+        approverName: '刘经理',
         status: 'approved',
         comment: '已安排好会场布置和茶水服务',
         approvedAt: '2024-06-06T09:00:00.000Z'
@@ -345,7 +347,7 @@ export const mockApprovalRecords: ApprovalRecord[] = [
         id: 'step_003',
         stepNumber: 3,
         approverRole: '分管领导',
-        approverId: 'user_010',
+        approverId: 'user_003',
         approverName: '王总',
         status: 'approved',
         comment: '同意',
@@ -353,6 +355,7 @@ export const mockApprovalRecords: ApprovalRecord[] = [
       }
     ],
     status: 'approved',
+    applicant: { id: 'user_010', name: '王总', department: '管理层' },
     createdAt: '2024-06-05T10:00:00.000Z',
     updatedAt: '2024-06-06T15:00:00.000Z'
   }

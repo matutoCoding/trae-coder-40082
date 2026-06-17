@@ -4,35 +4,66 @@ import { getWeekday, isTimeOverlap } from './dateUtils';
 
 export const generateRecurrenceDates = (rule: RecurrenceRule): string[] => {
   const dates: string[] = [];
-  let currentDate = dayjs(rule.startDate);
+  const startDate = dayjs(rule.startDate);
   const endDate = dayjs(rule.endDate);
 
-  while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
-    const weekday = currentDate.weekday();
-
-    if (rule.weekdays.includes(weekday as 0 | 1 | 2 | 3 | 4 | 5 | 6)) {
-      dates.push(currentDate.format('YYYY-MM-DD'));
+  if (rule.frequency === 'daily' || rule.frequency === 'weekly') {
+    let currentDate = startDate;
+    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
+      const weekday = currentDate.weekday();
+      if (rule.weekdays.includes(weekday as 0 | 1 | 2 | 3 | 4 | 5 | 6)) {
+        dates.push(currentDate.format('YYYY-MM-DD'));
+      }
+      currentDate = currentDate.add(1, 'day');
     }
-
-    switch (rule.frequency) {
-      case 'daily':
-        currentDate = currentDate.add(1, 'day');
-        break;
-      case 'weekly':
-        currentDate = currentDate.add(1, 'day');
-        break;
-      case 'biweekly':
-        currentDate = currentDate.add(1, 'day');
-        break;
-      case 'monthly':
-        currentDate = currentDate.add(1, 'day');
-        break;
-      default:
-        currentDate = currentDate.add(1, 'day');
+  } else if (rule.frequency === 'biweekly') {
+    let currentDate = startDate;
+    let weekOffset = 0;
+    const startWeekday = startDate.weekday();
+    
+    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
+      for (const weekday of rule.weekdays) {
+        let targetDate = currentDate.startOf('week').add(weekday, 'day');
+        if (weekOffset % 2 === 0) {
+          if (targetDate.isBefore(startDate)) {
+            targetDate = targetDate.add(2, 'week');
+          }
+          if (targetDate.isBefore(endDate) || targetDate.isSame(endDate, 'day')) {
+            dates.push(targetDate.format('YYYY-MM-DD'));
+          }
+        }
+      }
+      currentDate = currentDate.add(1, 'week');
+      weekOffset++;
+    }
+  } else if (rule.frequency === 'monthly') {
+    let currentMonth = startDate.startOf('month');
+    
+    while (currentMonth.isBefore(endDate) || currentMonth.isSame(endDate, 'month')) {
+      for (const weekday of rule.weekdays) {
+        let weekCount = 1;
+        let targetDate = currentMonth.startOf('week').add(weekday, 'day');
+        
+        if (targetDate.isBefore(currentMonth)) {
+          targetDate = targetDate.add(1, 'week');
+        }
+        
+        while (targetDate.month() === currentMonth.month()) {
+          if ((targetDate.isAfter(startDate) || targetDate.isSame(startDate, 'day')) &&
+              (targetDate.isBefore(endDate) || targetDate.isSame(endDate, 'day'))) {
+            dates.push(targetDate.format('YYYY-MM-DD'));
+          }
+          targetDate = targetDate.add(1, 'week');
+          weekCount++;
+        }
+      }
+      currentMonth = currentMonth.add(1, 'month');
     }
   }
 
-  return dates;
+  const uniqueDates = [...new Set(dates)].sort();
+  console.log('[generateRecurrenceDates] 规则:', rule.name, '频率:', rule.frequency, '生成日期:', uniqueDates.length, '个');
+  return uniqueDates;
 };
 
 export const generateBookingPreviews = (

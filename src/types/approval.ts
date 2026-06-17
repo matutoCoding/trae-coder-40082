@@ -45,6 +45,12 @@ export interface ApprovalRouteRule {
   updatedAt: string;
 }
 
+export interface Applicant {
+  id: string;
+  name: string;
+  department: string;
+}
+
 export interface ApprovalRecord {
   id: string;
   bookingId: string;
@@ -55,6 +61,7 @@ export interface ApprovalRecord {
   currentStep: number;
   steps: ApprovalStep[];
   status: ApprovalStatus;
+  applicant?: Applicant;
   finalComment?: string;
   createdAt: string;
   updatedAt: string;

@@ -78,12 +78,14 @@ const RoomDetailPage: React.FC = () => {
               <Text className={styles.infoLabel}>容纳人数</Text>
             </View>
             <View className={styles.infoCard}>
-              <Text className={styles.infoValue}>📏 {room.area}㎡</Text>
-              <Text className={styles.infoLabel}>面积</Text>
+              <Text className={styles.infoValue}>
+                {room.approvalRequired ? '�' : '🔓'} {room.approvalRequired ? '需审批' : '免审批'}
+              </Text>
+              <Text className={styles.infoLabel}>审批要求</Text>
             </View>
             <View className={styles.infoCard}>
-              <Text className={styles.infoValue}>💴 {room.hourlyRate}</Text>
-              <Text className={styles.infoLabel}>元/小时</Text>
+              <Text className={styles.infoValue}>⭐ Lv.{room.approvalLevel}</Text>
+              <Text className={styles.infoLabel}>审批级别</Text>
             </View>
           </View>
 
@@ -97,11 +99,11 @@ const RoomDetailPage: React.FC = () => {
           <View className={styles.section}>
             <Text className={styles.sectionTitle}>配备设施</Text>
             <View className={styles.equipmentGrid}>
-              {room.equipment.length > 0 ? (
-                room.equipment.map(eq => (
-                  <View key={eq} className={styles.equipmentItem}>
-                    <Text className={styles.equipmentIcon}>{equipmentIcons[eq] || '📦'}</Text>
-                    <Text className={styles.equipmentName}>{eq}</Text>
+              {room.equipments.length > 0 ? (
+                room.equipments.map(eq => (
+                  <View key={eq.id} className={styles.equipmentItem}>
+                    <Text className={styles.equipmentIcon}>{equipmentIcons[eq.name] || '📦'}</Text>
+                    <Text className={styles.equipmentName}>{eq.name}</Text>
                   </View>
                 ))
               ) : (
@@ -123,7 +125,7 @@ const RoomDetailPage: React.FC = () => {
                   <View className={styles.bookingInfo}>
                     <Text className={styles.bookingTitle}>{booking.title}</Text>
                     <Text className={styles.bookingOrganizer}>
-                      {booking.applicant.name} · {booking.attendeeCount}人
+                      {booking.applicant?.name || booking.organizerName || '未知'} · {booking.attendeeCount}人
                     </Text>
                   </View>
                 </View>

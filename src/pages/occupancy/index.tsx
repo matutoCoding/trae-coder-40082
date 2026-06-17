@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { useBookingStore } from '@/store/useBookingStore';
 import { useRoomStore } from '@/store/useRoomStore';
 import { useApprovalStore } from '@/store/useApprovalStore';
-import { formatDateTime, calculateDurationMinutes, minutesToDuration } from '@/utils/dateUtils';
+import { formatDateTime, calculateDurationMinutes, formatDuration } from '@/utils/dateUtils';
 import StatusBadge from '@/components/StatusBadge';
 import type { Booking, BookingStatus } from '@/types';
 import { BOOKING_STATUS_LABELS } from '@/types';
@@ -18,7 +18,7 @@ const OccupancyPage: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const { bookings, loading, fetchBookings, cancelBooking, getBookingById } = useBookingStore();
   const { rooms, fetchRooms, getRoomById } = useRoomStore();
-  const { approvals, fetchApprovals } = useApprovalStore();
+  const { records, fetchApprovals } = useApprovalStore();
 
   useDidShow(() => {
     loadData();
@@ -40,11 +40,13 @@ const OccupancyPage: React.FC = () => {
     }
     if (searchText.trim()) {
       const text = searchText.toLowerCase();
-      result = result.filter(b =>
-        b.title.toLowerCase().includes(text) ||
-        b.applicant.name.toLowerCase().includes(text) ||
-        getRoomById(b.roomId)?.name.toLowerCase().includes(text)
-      );
+      result = result.filter(b => {
+        const titleMatch = b.title?.toLowerCase().includes(text) || false;
+        const applicantMatch = b.applicant?.name?.toLowerCase().includes(text) ||
+                             b.organizerName?.toLowerCase().includes(text) || false;
+        const roomMatch = getRoomById(b.roomId)?.name?.toLowerCase().includes(text) || false;
+        return titleMatch || applicantMatch || roomMatch;
+      });
     }
     return result.sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
   }, [bookings, activeFilter, searchText, getRoomById]);
@@ -86,20 +88,23 @@ const OccupancyPage: React.FC = () => {
 
   const handleViewDetail = (booking: Booking) => {
     const room = getRoomById(booking.roomId);
-    const approval = approvals.find(a => a.bookingId === booking.id);
-    const duration = minutesToDuration(calculateDurationMinutes(booking.startTime, booking.endTime));
+    const approval = records.find(a => a.bookingId === booking.id);
+    const duration = formatDuration(calculateDurationMinutes(booking.startTime, booking.endTime));
+    const applicantName = booking.applicant?.name || booking.organizerName || '未知';
+    const applicantDept = booking.applicant?.department || booking.organizerDept || '未知';
 
     const content = [
       `主题：${booking.title}`,
       `会议室：${room?.name || '未知'}`,
       `时间：${formatDateTime(booking.startTime)} ~ ${formatDateTime(booking.endTime)}`,
       `时长：${duration}`,
-      `参会人数：${booking.attendeeCount}人`,
-      `申请人：${booking.applicant.name} (${booking.applicant.department})`,
+      `参会人数：${booking.attendeeCount || 0}人`,
+      `申请人：${applicantName} (${applicantDept})`,
       `状态：${BOOKING_STATUS_LABELS[booking.status]}`,
+      approval ? `审批状态：${approval.status === 'pending' ? '审批中' : approval.status === 'approved' ? '已通过' : '已拒绝'}` : '',
       '',
       booking.description ? `描述：${booking.description}` : '',
-      booking.recurrenceId ? `\n来源：周期会议` : ''
+      booking.recurrenceId ? `来源：周期会议` : ''
     ].filter(Boolean).join('\n');
 
     Taro.showModal({
@@ -182,7 +187,7 @@ const OccupancyPage: React.FC = () => {
         {filteredBookings.length > 0 ? (
           filteredBookings.map(booking => {
             const room = getRoomById(booking.roomId);
-            const duration = minutesToDuration(calculateDurationMinutes(booking.startTime, booking.endTime));
+            const duration = formatDuration(calculateDurationMinutes(booking.startTime, booking.endTime));
 
             return (
               <View
@@ -225,10 +230,12 @@ const OccupancyPage: React.FC = () => {
 
                 <View className={styles.applicantInfo}>
                   <View className={styles.avatar}>
-                    <Text className={styles.avatarText}>{booking.applicant.name.charAt(0)}</Text>
+                    <Text className={styles.avatarText}>
+                      {(booking.applicant?.name || booking.organizerName || 'U').charAt(0)}
+                    </Text>
                   </View>
                   <Text className={styles.applicantName}>
-                    {booking.applicant.name} · {booking.applicant.department}
+                    {booking.applicant?.name || booking.organizerName || '未知'} · {booking.applicant?.department || booking.organizerDept || '未知'}
                   </Text>
                 </View>
 

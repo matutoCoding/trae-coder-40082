@@ -1,8 +1,15 @@
 import type { Room } from './room';
+import type { RecurrenceException } from './recurrence';
 
 export type BookingStatus = 'pending' | 'approved' | 'rejected' | 'cancelled' | 'completed';
 
 export type BookingType = 'single' | 'recurrence';
+
+export interface Applicant {
+  id: string;
+  name: string;
+  department: string;
+}
 
 export interface Booking {
   id: string;
@@ -14,14 +21,17 @@ export interface Booking {
   startTime: string;
   endTime: string;
   duration: number;
+  durationMinutes?: number;
   type: BookingType;
   recurrenceId?: string;
   recurrenceIndex?: number;
+  recurrenceException?: RecurrenceException;
   isException?: boolean;
   originalDate?: string;
   organizerId: string;
   organizerName: string;
   organizerDept: string;
+  applicant?: Applicant;
   attendeeCount: number;
   attendees?: string[];
   status: BookingStatus;

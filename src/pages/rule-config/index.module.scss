@@ -1,0 +1,282 @@
+@import '@/styles/variables.scss';
+
+.container {
+  min-height: 100vh;
+  background: #f5f6f7;
+  padding-bottom: 40rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  background: #fff;
+  margin-bottom: 24rpx;
+}
+
+.titleSection {
+  flex: 1;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #1d2129;
+  margin-bottom: 8rpx;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #86909c;
+}
+
+.addBtn {
+  padding: 16rpx 32rpx;
+  background: linear-gradient(135deg, #165dff 0%, #4080ff 100%);
+  border-radius: 40rpx;
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.addBtnText {
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.ruleList {
+  padding: 0 24rpx;
+}
+
+.ruleCard {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.ruleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.ruleTitle {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1d2129;
+  flex: 1;
+}
+
+.switch {
+  width: 88rpx;
+  height: 48rpx;
+  background: #c9cdd4;
+  border-radius: 24rpx;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.switchActive {
+  background: #165dff;
+}
+
+.switchDot {
+  width: 40rpx;
+  height: 40rpx;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 4rpx;
+  left: 4rpx;
+  transition: all 0.3s;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
+}
+
+.switchDotActive {
+  transform: translateX(40rpx);
+}
+
+.ruleDescription {
+  font-size: 26rpx;
+  color: #86909c;
+  margin-bottom: 16rpx;
+  line-height: 1.5;
+}
+
+.ruleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.metaTag {
+  padding: 8rpx 16rpx;
+  background: #f2f3f5;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #4e5969;
+}
+
+.conditionsSection {
+  background: #f7f8fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.conditionsTitle {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #4e5969;
+  margin-bottom: 12rpx;
+}
+
+.conditionItem {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 8rpx 0;
+  font-size: 26rpx;
+  color: #1d2129;
+}
+
+.conditionType {
+  color: #165dff;
+  font-weight: 500;
+}
+
+.conditionOperator {
+  color: #86909c;
+}
+
+.conditionValue {
+  color: #1d2129;
+  font-weight: 500;
+}
+
+.ruleFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20rpx;
+  border-top: 2rpx solid #f2f3f5;
+}
+
+.flowInfo {
+  font-size: 26rpx;
+  color: #86909c;
+}
+
+.flowName {
+  color: #722ed1;
+  font-weight: 500;
+}
+
+.ruleActions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.actionBtn {
+  padding: 12rpx 24rpx;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+}
+
+.actionBtnSecondary {
+  background: #f7f8fa;
+  color: #4e5969;
+}
+
+.actionBtnPrimary {
+  background: #e8f3ff;
+  color: #165dff;
+}
+
+.actionBtnDanger {
+  background: #fff1f0;
+  color: #f53f3f;
+}
+
+.actionBtnText {
+  font-size: 26rpx;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 48rpx;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 96rpx;
+  margin-bottom: 24rpx;
+}
+
+.emptyTitle {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #1d2129;
+  margin-bottom: 12rpx;
+}
+
+.emptyText {
+  font-size: 28rpx;
+  color: #86909c;
+  line-height: 1.6;
+}
+
+.emptyBtn {
+  margin-top: 32rpx;
+  padding: 20rpx 48rpx;
+  background: linear-gradient(135deg, #165dff 0%, #4080ff 100%);
+  border-radius: 44rpx;
+  box-shadow: 0 8rpx 24rpx rgba(22, 93, 255, 0.3);
+}
+
+.emptyBtnText {
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+  gap: 16rpx;
+}
+
+.loadingText {
+  font-size: 28rpx;
+  color: #86909c;
+}
+
+.priorityBadge {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  background: #fff7e6;
+  color: #d48806;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  margin-right: 12rpx;
+}
+
+.logicTag {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  background: #e6f7ff;
+  color: #1890ff;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+}
