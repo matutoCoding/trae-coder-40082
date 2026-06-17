@@ -233,6 +233,14 @@
   }
 }
 
+.actionBtnDanger {
+  background: $color-danger-bg;
+
+  .actionBtnText {
+    color: $color-danger;
+  }
+}
+
 .actionBtnText {
   font-size: $font-size-xs;
   font-weight: $font-weight-medium;

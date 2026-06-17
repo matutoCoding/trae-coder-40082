@@ -46,8 +46,18 @@ const SchedulePage: React.FC = () => {
   }, [selectedDate, bookings]);
 
   const getBookingBlockStyle = (booking: Booking) => {
-    const startMinutes = parseInt(booking.startTime.split(':')[0]) * 60 + parseInt(booking.startTime.split(':')[1]);
-    const endMinutes = parseInt(booking.endTime.split(':')[0]) * 60 + parseInt(booking.endTime.split(':')[1]);
+    const extractTime = (isoString: string): string => {
+      if (isoString.includes('T')) {
+        return isoString.split('T')[1].substring(0, 5);
+      }
+      return isoString.substring(0, 5);
+    };
+
+    const startTime = extractTime(booking.startTime);
+    const endTime = extractTime(booking.endTime);
+
+    const startMinutes = parseInt(startTime.split(':')[0]) * 60 + parseInt(startTime.split(':')[1]);
+    const endMinutes = parseInt(endTime.split(':')[0]) * 60 + parseInt(endTime.split(':')[1]);
     const dayStart = 8 * 60;
     const dayEnd = 20 * 60;
     const totalMinutes = dayEnd - dayStart;
@@ -68,14 +78,24 @@ const SchedulePage: React.FC = () => {
   };
 
   const handleBookingClick = (booking: Booking) => {
+    const extractTime = (isoString: string): string => {
+      if (isoString.includes('T')) {
+        return isoString.split('T')[1].substring(0, 5);
+      }
+      return isoString.substring(0, 5);
+    };
+
     const room = rooms.find(r => r.id === booking.roomId);
-    if (room) {
-      Taro.showModal({
-        title: booking.title,
-        content: `会议室: ${room.name}\n时间: ${booking.startTime}-${booking.endTime}\n组织者: ${booking.organizerName}\n状态: ${booking.status}`,
-        showCancel: false
-      });
-    }
+    const statusText = booking.status === 'approved' ? '已审批' :
+                       booking.status === 'pending' ? '待审批' :
+                       booking.status === 'rejected' ? '已拒绝' :
+                       booking.status === 'cancelled' ? '已取消' : booking.status;
+
+    Taro.showModal({
+      title: booking.title,
+      content: `会议室: ${room?.name || '未知'}\n时间: ${extractTime(booking.startTime)}-${extractTime(booking.endTime)}\n组织者: ${booking.applicant?.name || booking.organizerName || '未知'}\n参会人数: ${booking.attendeeCount}人\n状态: ${statusText}`,
+      showCancel: false
+    });
   };
 
   const renderTimeline = () => {

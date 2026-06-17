@@ -17,31 +17,28 @@ export const generateRecurrenceDates = (rule: RecurrenceRule): string[] => {
       currentDate = currentDate.add(1, 'day');
     }
   } else if (rule.frequency === 'biweekly') {
-    let currentDate = startDate;
-    let weekOffset = 0;
-    const startWeekday = startDate.weekday();
+    const firstWeekStart = startDate.startOf('week');
+    let weekNum = 0;
+    let currentWeekStart = firstWeekStart;
     
-    while (currentDate.isBefore(endDate) || currentDate.isSame(endDate, 'day')) {
-      for (const weekday of rule.weekdays) {
-        let targetDate = currentDate.startOf('week').add(weekday, 'day');
-        if (weekOffset % 2 === 0) {
-          if (targetDate.isBefore(startDate)) {
-            targetDate = targetDate.add(2, 'week');
-          }
-          if (targetDate.isBefore(endDate) || targetDate.isSame(endDate, 'day')) {
+    while (currentWeekStart.isBefore(endDate) || currentWeekStart.isSame(endDate, 'week')) {
+      if (weekNum % 2 === 0) {
+        for (const weekday of rule.weekdays) {
+          const targetDate = currentWeekStart.add(weekday, 'day');
+          if ((targetDate.isAfter(startDate) || targetDate.isSame(startDate, 'day')) &&
+              (targetDate.isBefore(endDate) || targetDate.isSame(endDate, 'day'))) {
             dates.push(targetDate.format('YYYY-MM-DD'));
           }
         }
       }
-      currentDate = currentDate.add(1, 'week');
-      weekOffset++;
+      currentWeekStart = currentWeekStart.add(1, 'week');
+      weekNum++;
     }
   } else if (rule.frequency === 'monthly') {
     let currentMonth = startDate.startOf('month');
     
     while (currentMonth.isBefore(endDate) || currentMonth.isSame(endDate, 'month')) {
       for (const weekday of rule.weekdays) {
-        let weekCount = 1;
         let targetDate = currentMonth.startOf('week').add(weekday, 'day');
         
         if (targetDate.isBefore(currentMonth)) {
@@ -54,7 +51,6 @@ export const generateRecurrenceDates = (rule: RecurrenceRule): string[] => {
             dates.push(targetDate.format('YYYY-MM-DD'));
           }
           targetDate = targetDate.add(1, 'week');
-          weekCount++;
         }
       }
       currentMonth = currentMonth.add(1, 'month');
@@ -62,7 +58,9 @@ export const generateRecurrenceDates = (rule: RecurrenceRule): string[] => {
   }
 
   const uniqueDates = [...new Set(dates)].sort();
-  console.log('[generateRecurrenceDates] 规则:', rule.name, '频率:', rule.frequency, '生成日期:', uniqueDates.length, '个');
+  console.log('[generateRecurrenceDates] 规则:', rule.name, '频率:', rule.frequency, 
+    '起始:', rule.startDate, '结束:', rule.endDate, 
+    '星期:', rule.weekdays, '生成日期:', uniqueDates.length, '个', uniqueDates);
   return uniqueDates;
 };
 

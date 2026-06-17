@@ -257,7 +257,7 @@ export const useRecurrenceStore = create<RecurrenceState & RecurrenceActions>((s
       get().saveRecurrences();
     }
 
-    console.log('[RecurrenceStore] 批量生成完成:', generatedCount, '条有效预约，跳过', dates.length - generatedCount, '条');
-    return generatedCount;
+    console.log('[RecurrenceStore] 批量生成完成:', newBookings.length, '条有效预约，跳过', dates.length - newBookings.length, '条');
+    return newBookings.length;
   }
 }));

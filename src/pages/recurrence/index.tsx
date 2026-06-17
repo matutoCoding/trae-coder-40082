@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 
 const RecurrencePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'active' | 'inactive'>('active');
-  const { recurrences, loading, fetchRecurrences, toggleRecurrenceActive, generateBookings } = useRecurrenceStore();
+  const { recurrences, loading, fetchRecurrences, toggleRecurrenceActive, generateBookings, deleteRecurrence } = useRecurrenceStore();
   const { rooms, fetchRooms, getRoomById } = useRoomStore();
 
   useDidShow(() => {
@@ -53,6 +53,29 @@ const RecurrencePage: React.FC = () => {
 
   const handleToggle = (id: string) => {
     toggleRecurrenceActive(id);
+    Taro.showToast({
+      title: '状态已更新',
+      icon: 'success',
+      duration: 1000
+    });
+  };
+
+  const handleDelete = (id: string, name: string) => {
+    Taro.showModal({
+      title: '确认删除',
+      content: `确定要删除周期规则"${name}"吗？已生成的预约不会被删除。`,
+      confirmText: '删除',
+      confirmColor: '#f53f3f',
+      success: (res) => {
+        if (res.confirm) {
+          deleteRecurrence(id);
+          Taro.showToast({
+            title: '删除成功',
+            icon: 'success'
+          });
+        }
+      }
+    });
   };
 
   const handleGenerate = (rule: RecurrenceRule) => {
@@ -216,6 +239,12 @@ const RecurrencePage: React.FC = () => {
                       onClick={() => handleEdit(rule)}
                     >
                       <Text className={styles.actionBtnText}>编辑</Text>
+                    </View>
+                    <View
+                      className={classNames(styles.actionBtn, styles.actionBtnDanger)}
+                      onClick={() => handleDelete(rule.id, rule.name)}
+                    >
+                      <Text className={styles.actionBtnText}>删除</Text>
                     </View>
                   </View>
                 </View>

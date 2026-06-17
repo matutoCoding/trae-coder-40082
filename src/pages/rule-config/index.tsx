@@ -55,7 +55,9 @@ const RuleConfigPage: React.FC = () => {
   const handleDelete = (id: string, name: string) => {
     Taro.showModal({
       title: '确认删除',
-      content: `确定要删除规则"${name}"吗？',
+      content: `确定要删除规则"${name}"吗？删除后无法恢复。`,
+      confirmText: '删除',
+      confirmColor: '#f53f3f',
       success: (res) => {
         if (res.confirm) {
           deleteRule(id);
