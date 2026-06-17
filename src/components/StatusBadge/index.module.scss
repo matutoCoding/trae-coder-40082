@@ -1,0 +1,38 @@
+@use '@/styles/variables.scss' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-round;
+  border: 1rpx solid;
+  transition: all $transition-base;
+}
+
+.small {
+  padding: $spacing-xs $spacing-sm;
+}
+
+.medium {
+  padding: $spacing-xs $spacing-md;
+}
+
+.large {
+  padding: $spacing-sm $spacing-lg;
+}
+
+.text {
+  font-weight: $font-weight-medium;
+}
+
+.text-small {
+  font-size: $font-size-xs;
+}
+
+.text-medium {
+  font-size: $font-size-sm;
+}
+
+.text-large {
+  font-size: $font-size-md;
+}

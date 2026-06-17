@@ -1,0 +1,192 @@
+@use '@/styles/variables.scss' as *;
+
+.calendarContainer {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.weekHeader,
+.monthHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-lg;
+}
+
+.navBtn {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-round;
+  background: $color-bg-hover;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-primary-bg;
+  }
+}
+
+.navText {
+  font-size: $font-size-xxl;
+  color: $color-text-secondary;
+  line-height: 1;
+}
+
+.monthTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.weekdayLabels {
+  display: flex;
+  margin-bottom: $spacing-sm;
+}
+
+.weekdayLabel {
+  flex: 1;
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  padding: $spacing-xs 0;
+}
+
+.weekendLabel {
+  color: $color-error;
+}
+
+.datesRow {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.dateCell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-sm $spacing-xs;
+  border-radius: $radius-md;
+  position: relative;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.selected {
+  background: $gradient-primary;
+
+  &:active {
+    background: $gradient-primary;
+  }
+}
+
+.today {
+  background: $color-primary-bg;
+}
+
+.weekend {
+  .dateNumber {
+    color: $color-error;
+  }
+}
+
+.dateNumber {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.selectedText {
+  color: $color-text-white;
+}
+
+.todayText {
+  color: $color-primary;
+}
+
+.bookingDots {
+  display: flex;
+  gap: 4rpx;
+}
+
+.dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: $radius-round;
+  background: $color-text-disabled;
+}
+
+.dotPending {
+  background: $color-warning;
+}
+
+.dotApproved {
+  background: $color-success;
+}
+
+.dotRejected {
+  background: $color-error;
+}
+
+.todayIndicator {
+  position: absolute;
+  bottom: 4rpx;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: $radius-round;
+  background: $color-primary;
+}
+
+.monthGrid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.monthCell,
+.emptyCell {
+  width: calc(100% / 7);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+}
+
+.monthCell {
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.emptyCell {
+  background: transparent;
+}
+
+.monthDot {
+  position: absolute;
+  bottom: 12rpx;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: $radius-round;
+  background: $color-primary;
+}
+
+.weekView {
+  padding-bottom: $spacing-sm;
+}
+
+.monthView {
+  padding-bottom: $spacing-sm;
+}

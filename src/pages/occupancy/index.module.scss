@@ -1,0 +1,397 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  padding: 0 $page-padding;
+  min-height: 100vh;
+  padding-bottom: $spacing-xl * 3;
+  box-sizing: border-box;
+}
+
+.header {
+  padding-top: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.titleSection {
+  flex: 1;
+}
+
+.title {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.subtitle {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.filterBtn {
+  @include button-reset;
+  background: $color-bg-card;
+  padding: 0 $spacing-md;
+  height: $button-height-md;
+  border-radius: $radius-button;
+  border: 2rpx solid $color-border;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-primary-bg;
+    border-color: $color-primary;
+  }
+}
+
+.filterBtnText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+.filterRow {
+  @include scroll-x-container;
+  margin-bottom: $spacing-lg;
+}
+
+.filterChip {
+  @include scroll-x-item;
+  padding: $spacing-sm $spacing-lg;
+  border-radius: $radius-button;
+  background: $color-bg-card;
+  border: 2rpx solid $color-border;
+  margin-right: $spacing-md;
+  flex-shrink: 0;
+  transition: all $transition-base;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.filterChipActive {
+  background: $gradient-primary;
+  border-color: transparent;
+
+  .filterChipText {
+    color: $color-text-white;
+  }
+}
+
+.filterChipText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: $color-bg-card;
+  border-radius: $radius-button;
+  padding: $spacing-sm $spacing-md;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.searchIcon {
+  font-size: $font-size-lg;
+  color: $color-text-tertiary;
+  margin-right: $spacing-sm;
+}
+
+.searchInput {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.searchInput::placeholder {
+  color: $color-text-tertiary;
+}
+
+.bookingCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+  border-left: 8rpx solid transparent;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.bookingCardApproved {
+  border-left-color: $color-success;
+}
+
+.bookingCardPending {
+  border-left-color: $color-warning;
+}
+
+.bookingCardRejected {
+  border-left-color: $color-error;
+}
+
+.bookingCardCancelled {
+  border-left-color: $color-text-tertiary;
+  opacity: 0.7;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-md;
+}
+
+.cardTitle {
+  flex: 1;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-right: $spacing-md;
+}
+
+.cardMeta {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.metaIcon {
+  margin-right: $spacing-xs;
+}
+
+.timeSection {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-md;
+}
+
+.timeIcon {
+  font-size: 32rpx;
+  color: $color-primary;
+  margin-right: $spacing-md;
+}
+
+.timeContent {
+  flex: 1;
+}
+
+.timeRange {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 4rpx;
+}
+
+.timeDuration {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.applicantInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.avatar {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: $radius-round;
+  background: $gradient-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-sm;
+}
+
+.avatarText {
+  font-size: $font-size-sm;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.applicantName {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.createTime {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.actionButtons {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.actionBtn {
+  @include button-reset;
+  padding: 0 $spacing-md;
+  height: $button-height-sm;
+  border-radius: $radius-button;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+  }
+}
+
+.actionBtnSecondary {
+  background: $color-bg-hover;
+
+  .actionBtnText {
+    color: $color-text-secondary;
+  }
+}
+
+.actionBtnDanger {
+  background: $color-error;
+
+  .actionBtnText {
+    color: $color-text-white;
+  }
+}
+
+.actionBtnPrimary {
+  background: $gradient-primary;
+
+  .actionBtnText {
+    color: $color-text-white;
+  }
+}
+
+.actionBtnText {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl * 3;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+}
+
+.emptyIcon {
+  font-size: 120rpx;
+  margin-bottom: $spacing-md;
+  opacity: 0.3;
+}
+
+.emptyTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.emptyText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl * 2;
+}
+
+.loadingText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  margin-left: $spacing-sm;
+}
+
+.statRow {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.statCard {
+  flex: 1;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  text-align: center;
+  box-shadow: $shadow-card;
+}
+
+.statValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: 4rpx;
+}
+
+.statValueApproved {
+  color: $color-success;
+}
+
+.statValuePending {
+  color: $color-warning;
+}
+
+.statValueTotal {
+  color: $color-primary;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+}
+
+.recurrenceTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx $spacing-sm;
+  background: $color-primary-bg;
+  border-radius: $radius-xs;
+  margin-left: $spacing-sm;
+}
+
+.recurrenceTagText {
+  font-size: 20rpx;
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}

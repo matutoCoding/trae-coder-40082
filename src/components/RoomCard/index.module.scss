@@ -1,0 +1,152 @@
+@use '@/styles/variables.scss' as *;
+
+.roomCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: $shadow-card-hover;
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 280rpx;
+  overflow: hidden;
+}
+
+.roomImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.levelBadge {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-round;
+  background: $color-primary;
+}
+
+.levelText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.content {
+  padding: $spacing-lg;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.roomName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+  flex: 1;
+}
+
+.capacityBadge {
+  background: $color-primary-bg;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-round;
+  margin-left: $spacing-sm;
+}
+
+.capacityText {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+.location {
+  margin-bottom: $spacing-md;
+}
+
+.locationText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.equipments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+}
+
+.equipmentTag {
+  background: $color-bg-hover;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+}
+
+.equipmentText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.approvalInfo,
+.freeInfo {
+  flex: 1;
+}
+
+.approvalText {
+  font-size: $font-size-sm;
+  color: $color-warning;
+}
+
+.freeText {
+  font-size: $font-size-sm;
+  color: $color-success;
+}
+
+.bookBtn {
+  @include button-reset;
+  background: $gradient-primary;
+  color: $color-text-white;
+  padding: 0 $spacing-xl;
+  height: $button-height-md;
+  border-radius: $radius-button;
+  min-width: 160rpx;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.96);
+  }
+}
+
+.bookBtnDisabled {
+  background: $color-text-disabled;
+  pointer-events: none;
+}
+
+.bookBtnText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}
